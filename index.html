@@ -191,245 +191,25 @@
       position: relative;
       min-height: 100vh;
       width: 100%;
-      display: flex;
-      align-items: center;
       overflow: hidden;
       background: var(--black);
     }
 
     .hero-bg {
       position: absolute;
-      inset: -20px;
+      inset: 0;
       z-index: 0;
-      background-image: url('./assets/7.jpeg');
+      background-image: url('./assets/heropreview.png');
       background-size: cover;
-      background-position: center;
+      background-position: center 20%;
       animation: heroSlowZoom 18s ease-in-out infinite alternate;
       will-change: transform;
     }
 
     @keyframes heroSlowZoom {
       0% { transform: scale(1); }
-      100% { transform: scale(1.06); }
+      100% { transform: scale(1.04); }
     }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background:
-        linear-gradient(135deg, rgba(8,8,8,0.88) 0%, rgba(10,10,10,0.6) 45%, rgba(0,0,0,0.3) 100%),
-        linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 40%);
-    }
-
-    .hero-grid-lines {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      pointer-events: none;
-      opacity: 0.04;
-    }
-    .hero-grid-lines span {
-      border-right: 1px solid #fff;
-    }
-    .hero-grid-lines span:last-child { border-right: none; }
-
-    /* Light sweep */
-    .hero-sweep {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .hero-sweep::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 60%;
-      height: 100%;
-      background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.03) 40%, rgba(255,255,255,0.06) 50%, transparent 60%);
-      animation: lightSweep 8s ease-in-out infinite;
-    }
-    @keyframes lightSweep {
-      0%, 100% { left: -100%; }
-      50% { left: 150%; }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 680px;
-      padding: 0 3.5rem;
-    }
-
-    .hero-label {
-      font-family: var(--ff-body);
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .hero-label::before {
-      content: '';
-      width: 40px;
-      height: 1px;
-      background: var(--gold);
-    }
-
-    .hero-title {
-      font-family: var(--ff-head);
-      font-weight: 900;
-      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-    }
-    .hero-title em {
-      font-style: normal;
-      color: var(--gold);
-    }
-
-    .hero-subtitle {
-      font-family: var(--ff-body);
-      font-size: 1rem;
-      line-height: 1.75;
-      color: rgba(255,255,255,0.6);
-      max-width: 480px;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .hero-btn-primary {
-      background: var(--gold);
-      color: var(--black);
-      border: none;
-      padding: 0.85rem 2.2rem;
-      font-family: var(--ff-body);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.35s;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .hero-btn-primary:hover {
-      background: var(--gold-light);
-      box-shadow: 0 8px 30px rgba(201,169,110,0.35);
-      transform: translateY(-2px);
-    }
-    .hero-btn-primary svg {
-      width: 14px; height: 14px;
-      transition: transform 0.3s;
-    }
-    .hero-btn-primary:hover svg { transform: translateX(3px); }
-
-    .hero-btn-outline {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 0.85rem 2.2rem;
-      font-family: var(--ff-body);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.35s;
-    }
-    .hero-btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(201,169,110,0.06);
-    }
-
-    .hero-trust {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      font-family: var(--ff-body);
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.05em;
-    }
-    .hero-trust strong {
-      color: var(--white);
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-    .hero-trust-divider {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-    }
-
-    /* Scroll indicator */
-    .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: rgba(255,255,255,0.35);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-    .hero-scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-scroll-line::after {
-      content: '';
-      position: absolute;
-      top: -100%;
-      width: 100%;
-      height: 50%;
-      background: var(--gold);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0% { top: -50%; }
-      100% { top: 110%; }
-    }
-
-    /* Hero load animations */
-    @keyframes heroFadeUp {
-      from { opacity: 0; transform: translateY(30px); filter: blur(4px); }
-      to { opacity: 1; transform: translateY(0); filter: blur(0); }
-    }
-    .hero-label { animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s both; }
-    .hero-title { animation: heroFadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.35s both; }
-    .hero-subtitle { animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.55s both; }
-    .hero-buttons { animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.7s both; }
-    .hero-trust { animation: heroFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.9s both; }
-    .hero-scroll { animation: fadeIn 1s ease 1.5s both; }
 
     /* ─── SECTION COMMON ─── */
     .section {
@@ -1738,45 +1518,16 @@
         text-transform: uppercase;
       }
 
-      /* Hero */
+      /* Hero Mobile Fit */
       .hero {
         min-height: auto;
+        aspect-ratio: 2201 / 1651; /* matches exactly the natural resolution of heropreview.png */
       }
-
-      .hero-content {
-        padding: 0 1.25rem;
-        text-align: center;
-        max-width: 100%;
+      .hero-bg {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
       }
-
-      .hero-label { justify-content: center; }
-      .hero-label::before { display: none; }
-
-      .hero-title {
-        font-size: clamp(2rem, 8vw, 3rem);
-      }
-
-      .hero-subtitle {
-        max-width: 100%;
-        font-size: 0.9rem;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-        width: 100%;
-      }
-      .hero-btn-primary, .hero-btn-outline {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .hero-trust {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
-      }
-
-      .hero-scroll { display: none; }
 
       /* Sections */
       .section {
@@ -1943,36 +1694,6 @@
   <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero-bg" id="heroBg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-grid-lines">
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div class="hero-sweep"></div>
-
-    <div class="hero-content">
-      <div class="hero-label">Plankraft Engineers &amp; Builders</div>
-      <h1 class="hero-title">Built With <em>Precision.</em><br>Designed To Last.</h1>
-      <p class="hero-subtitle">Luxury homes, commercial spaces, and structural excellence crafted with engineering discipline and timeless quality.</p>
-      <div class="hero-buttons">
-        <button class="hero-btn-primary" id="heroViewProjects">
-          View Projects
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 8h8M8 4l4 4-4 4"/></svg>
-        </button>
-        <button class="hero-btn-outline" id="heroBookConsult">Book Consultation</button>
-      </div>
-      <div class="hero-trust">
-        <div><strong>120+</strong> Projects</div>
-        <div class="hero-trust-divider"></div>
-        <div>Quality Execution</div>
-        <div class="hero-trust-divider"></div>
-        <div>Kerala Based</div>
-      </div>
-    </div>
-
-    <div class="hero-scroll">
-      <div class="hero-scroll-line"></div>
-      Scroll
-    </div>
   </section>
 
 
