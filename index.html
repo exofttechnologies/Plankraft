@@ -602,9 +602,10 @@
       .hero-bg { background-image: url('./assets/heropreviewmobile.png'); background-size: cover; background-repeat: no-repeat; background-position: center; }
       .hero-text { font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 0.1em; transform: translateY(-20vh) !important; }
       
-      /* Mobile sequence scale */
-      .house-wrapper { bottom: 10; height: 100vh; width: 150vw; }
-      .sunlight-glow { width: 500px; height: 500px; }
+      /* Hide houses on mobile */
+      .house-sequence { display: none !important; }
+      .house-wrapper { display: none !important; }
+      .sunlight-glow { display: none !important; }
       
       .section { padding: 3rem 1.25rem; }
       .latest-header { margin-bottom: 2rem; }
@@ -1072,8 +1073,10 @@
                             document.body.classList.add('start-animations');
                             document.body.style.overflowY = 'auto';
                             
-                            // Initialize the premium house sequence precisely when the page is revealed
-                            startPremiumHouseSequence();
+                            // Initialize the premium house sequence precisely when the page is revealed (desktop only)
+                            if (window.innerWidth > 600) {
+                              startPremiumHouseSequence();
+                            }
 
                             setTimeout(() => {
                                 leftScreen.remove();
@@ -1196,10 +1199,11 @@
             scrollEndTimer = setTimeout(() => { isScrollingFromClick = false; }, 150);
           }
 
-          // House parallax effect on scroll - only apply when scrolling past hero
+          // House parallax effect on scroll - only apply when scrolling past hero and NOT on mobile
+          const isMobile = window.innerWidth <= 600;
           const hero = document.querySelector('.hero');
           const houseSequence = document.querySelector('.house-sequence');
-          if (hero && houseSequence) {
+          if (hero && houseSequence && !isMobile) {
             const heroRect = hero.getBoundingClientRect();
             // Only apply parallax when hero bottom is near or above viewport
             if (heroRect.bottom > 0) {
