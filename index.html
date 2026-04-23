@@ -11,6 +11,13 @@
     href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,700;0,900;1,300;1,400&family=Manrope:wght@400;500;600&display=swap"
     rel="stylesheet" />
   <style>
+    /* ═══ CINZEL-BLACK FONT IMPORT ═══ */
+    @font-face {
+      font-family: 'Cinzel';
+      src: url('./assets/fonts/Cinzel-Black.woff2') format('woff2');
+      font-weight: 900;
+      font-display: swap;
+    }
     *,
     *::before,
     *::after {
@@ -41,7 +48,7 @@
 
     html {
       font-size: 16px;
-      overflow-x: hidden; /* Prevents mobile browser stretch during split */
+      overflow-x: hidden;
     }
 
     body {
@@ -49,17 +56,15 @@
       background: var(--surface);
       color: var(--near-black);
       overflow-x: hidden;
-      overflow-y: hidden; /* Prevents scroll during load */
+      overflow-y: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
     /* ═══ 1. LOADER & FULL SCREEN SHATTER STYLES ═══ */
-    
     #loader-overlay {
         position: fixed;
         inset: 0;
         z-index: 9999;
-        /* CHANGED: New background image applied */
         background-color: #f4f1ea; 
         background-image: url('./assets/bgload.jpg');
         background-size: cover;
@@ -76,7 +81,7 @@
         flex-direction: column;
         align-items: center;
         width: 90%;          
-        max-width: 300px;    
+        max-width: 300px;   
     }
 
     .house-svg { width: 100%; height: 200px; overflow: visible; }
@@ -97,12 +102,10 @@
     .loading-text { margin-top: 15px; font-size: 14px; color: #5a554f; letter-spacing: 1.5px; text-transform: uppercase; transition: opacity 0.4s ease; text-align: center; }
     .fade-out { opacity: 0; pointer-events: none; }
 
-    /* The Blunt Biscuit Crack Clones */
     .screen-split-ready {
         position: fixed;
         inset: 0;
         z-index: 9999;
-        /* CHANGED: New background image applied to clones as well */
         background-color: #f4f1ea; 
         background-image: url('./assets/bgload.jpg');
         background-size: cover;
@@ -115,7 +118,6 @@
         transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1); 
     }
 
-    /* Crumbly, blocky, uneven polygon path */
     .screen-left {
         clip-path: polygon(
             0 0, 50% 0, 
@@ -138,11 +140,9 @@
         );
     }
 
-    /* The Straight Horizontal Split */
     .shatter-left-active { transform: translateX(-100vw); }
     .shatter-right-active { transform: translateX(100vw); }
 
-    /* The Main Page Zoom & Fade */
     #main-content {
         opacity: 0;
         transform: scale(0.92); 
@@ -155,10 +155,7 @@
         transform: scale(1); 
     }
 
-
     /* ═══ 2. ORIGINAL WEBSITE STYLES ═══ */
-
-    /* ─── NAV ─── */
     nav {
       position: fixed;
       top: 1.5rem;
@@ -177,7 +174,7 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.3);
       transition: all 0.4s;
       width: fit-content;
-      opacity: 0; /* Hidden initially for orchestration */
+      opacity: 0; 
     }
 
     nav.scrolled {
@@ -186,7 +183,6 @@
       border-color: rgba(255, 255, 255, 0.3);
     }
 
-    /* Light background state */
     nav.on-light {
       background: rgba(10, 10, 10, 0.75);
       backdrop-filter: blur(20px) brightness(0.9);
@@ -203,7 +199,6 @@
     .nav-logo { display: none; }
     .nav-logo img { width: 40px; height: 40px; object-fit: contain; }
 
-    /* ─── TOP LEFT LOGO ─── */
     .top-logo {
       position: absolute;
       top: 2rem;
@@ -215,7 +210,7 @@
       align-items: center;
       justify-content: center;
       pointer-events: auto;
-      opacity: 0; /* Hidden initially for orchestration */
+      opacity: 0; 
     }
     .top-logo img {
       width: 50px;
@@ -227,7 +222,6 @@
       transform: none !important;
     }
 
-    /* ─── MOBILE NAV (hidden on desktop) ─── */
     .mobile-nav { display: none; }
 
     .nav-links {
@@ -246,11 +240,148 @@
     .nav-links a.active { color: #fff; }
 
     /* ─── HERO ─── */
-    .hero { position: relative; min-height: 100vh; width: 100%; overflow: hidden; background: var(--black); }
+    .hero { 
+      position: relative; 
+      min-height: 100vh; 
+      width: 100%; 
+      overflow: hidden; 
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
       background-image: url('./assets/heropreview.png'); background-size: cover; background-position: center 20%;
       will-change: transform; opacity: 0;
+    }
+    
+    /* PREMIUM HERO TEXT OVERLAY */
+    .hero-text {
+      position: relative;
+      z-index: 2; /* Ensures text is behind houses */
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: clamp(2.5rem, 8vw, 7rem);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #ffffff;
+      line-height: 1.1;
+      opacity: 0;
+      animation: heroTextFadeIn 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+      text-wrap: balance;
+      max-width: 90vw;
+      word-spacing: normal;
+      transform: translateY(-8vh); /* Push up slightly to balance with houses */
+    }
+    
+    @keyframes heroTextFadeIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.95); }
+      to { opacity: 1; transform: translateY(-8vh) scale(1); }
+    }
+
+    /* ═══ PREMIUM CINEMATIC HOUSE SEQUENCE ═══ */
+    .house-sequence {
+      position: absolute;
+      inset: 0;
+      z-index: 10; /* Above text, below navbar */
+      pointer-events: none; 
+    }
+
+    /* Outer Wrapper: Handles Sliding Transitions */
+    .house-wrapper {
+      position: absolute;
+      bottom: -25vh; /* Half visible on desktop */
+      left: 50%;
+      width: 130vw;
+      max-width: 1800px;
+      height: 115vh;
+      /* Cinematic Ease-Out for luxurious feel */
+      transition: transform 2.5s cubic-bezier(0.25, 1, 0.5, 1);
+      will-change: transform;
+    }
+
+    /* Inner Wrapper: Handles Continuous Floating */
+    .house-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 4s ease-in-out;
+    }
+
+    .house-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      filter: drop-shadow(0 30px 40px rgba(0,0,0,0.4));
+    }
+
+    /* Positional Classes Controlled by JS */
+    .initial-bottom { transform: translate3d(-50%, 100vh, 0); opacity: 0; }
+    .pos-right { transform: translate3d(200vw, 0, 0); opacity: 0; }
+    .pos-left { transform: translate3d(-200vw, 0, 0); opacity: 1; }
+    .pos-center { transform: translate3d(-50%, 0, 0); opacity: 1; }
+
+
+
+    /* SUBTLE SUNLIGHT GLOW */
+    .sunlight-glow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(ellipse at center bottom,
+        rgba(255, 200, 100, 0.12) 0%,
+        rgba(255, 150, 50, 0.06) 30%,
+        transparent 70%);
+      z-index: 1;
+      pointer-events: none;
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    /* SOFT PARALLAX CLOUDS */
+    .hero-clouds {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      opacity: 0.4;
+    }
+
+    .cloud-layer {
+      position: absolute;
+      width: 200%;
+      height: 100%;
+      background-repeat: repeat-x;
+      will-change: transform;
+      opacity: 0.3;
+    }
+
+    .cloud-layer-1 {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,80 Q150,60 300,80 T600,80 T900,80 T1200,80 L1200,120 L0,120 Z' fill='%23ffffff' opacity='0.15'/%3E%3C/svg%3E");
+      animation: cloudDrift 30s linear infinite;
+    }
+
+    .cloud-layer-2 {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0,100 Q200,70 400,100 T800,100 T1200,100 L1200,120 L0,120 Z' fill='%23ffffff' opacity='0.1'/%3E%3C/svg%3E");
+      animation: cloudDrift 40s linear infinite reverse;
+      top: 40px;
+    }
+
+    @keyframes cloudDrift {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
 
     @keyframes heroSlowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.04); } }
@@ -346,7 +477,6 @@
     .social-btn svg { width: 16px; height: 16px; fill: white; }
 
     /* ═══ 3. PREMIUM ANIMATION ORCHESTRATION ═══ */
-
     @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
@@ -372,8 +502,7 @@
 
     img { opacity: 0; transform: scale(1.04); transition: opacity 0.7s ease, transform 0.7s ease, filter 0.7s ease; filter: blur(8px); }
     img.img-loaded { opacity: 1; transform: scale(1); filter: blur(0); }
-    nav img, .top-logo img, .service-card-icon svg, .social-btn svg { opacity: 1; transform: none; filter: none; }
-
+    nav img, .top-logo img, .service-card-icon svg, .social-btn svg, .house-wrapper img { opacity: 1; transform: none; filter: none; }
 
     /* ═══ RESPONSIVE — TABLET (max-width: 900px) ═══ */
     @media (max-width: 900px) {
@@ -398,13 +527,14 @@
       .cta-section { padding: 5rem 2rem 4rem; flex-direction: column; align-items: flex-start; min-height: auto; }
       .cta-arch-img { position: relative; width: 100%; height: 250px; margin-bottom: 2rem; }
       .cta-content { max-width: 100%; }
+      /* Mobile house responsive scaling */
+      .house-wrapper { bottom: -5vh; height: 75vh; width: 120vw; }
+      .hero-text { transform: translateY(-15vh) !important; }
     }
 
     /* ═══ RESPONSIVE — MOBILE (max-width: 600px) ═══ */
     @media (max-width: 600px) {
-      /* Hide desktop nav on mobile */
       nav { display: none !important; }
-      /* Show mobile nav system */
       .mobile-nav { display: block; }
       .mob-hamburger {
         position: fixed; top: 1.25rem; right: 1.25rem; z-index: 200; width: 48px; height: 48px;
@@ -412,7 +542,7 @@
         border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
         display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0;
         flex-direction: column; gap: 5px; transition: background 0.3s, border-color 0.3s;
-        opacity: 0; /* Hidden before loader finishes */
+        opacity: 0;
       }
       .mob-hamburger:hover { background: rgba(10, 10, 10, 0.75); }
       .mob-hamburger span {
@@ -422,17 +552,14 @@
       .mob-hamburger span:nth-child(1) { width: 20px; }
       .mob-hamburger span:nth-child(2) { width: 13px; }
       .mob-hamburger span:nth-child(3) { width: 20px; }
-      /* X state */
       .mobile-nav.open .mob-hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); width: 20px; }
       .mobile-nav.open .mob-hamburger span:nth-child(2) { opacity: 0; width: 0; }
       .mobile-nav.open .mob-hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); width: 20px; }
-      /* Overlay */
       .mob-overlay {
         position: fixed; inset: 0; z-index: 150; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);
         opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
       }
       .mobile-nav.open .mob-overlay { opacity: 1; pointer-events: auto; }
-      /* Slide-in panel */
       .mob-panel {
         position: fixed; top: 0; right: 0; bottom: 0; width: 280px; max-width: 80vw; z-index: 160;
         background: linear-gradient(180deg, #0c0c0c 0%, #111 50%, #0a0a0a 100%);
@@ -465,9 +592,14 @@
       [data-parallax] { transform: none !important; }
       img { filter: none; transform: scale(1.02); }
 
-      /* Hero Mobile Fit */
-      .hero { min-height: auto; aspect-ratio: 2201 / 1651; }
-      .hero-bg { background-size: cover; background-repeat: no-repeat; background-position: center; }
+      .hero { min-height: auto; aspect-ratio: 9 / 16; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; }
+      .hero-bg { background-image: url('./assets/heropreviewmobile.png'); background-size: cover; background-repeat: no-repeat; background-position: center; }
+      .hero-text { font-size: clamp(2rem, 6vw, 4rem); letter-spacing: 0.1em; transform: translateY(-20vh) !important; }
+      
+      /* Mobile sequence scale */
+      .house-wrapper { bottom: 10; height: 100vh; width: 150vw; }
+      .sunlight-glow { width: 500px; height: 500px; }
+      
       .section { padding: 3rem 1.25rem; }
       .latest-header { margin-bottom: 2rem; }
       .latest-title { font-size: 1.8rem; }
@@ -528,7 +660,7 @@
           <div class="progress-wrapper" id="progress-wrapper">
               <div class="progress-bar" id="progress-bar"></div>
           </div>
-          <div class="loading-text" id="loading-text">Loading PlanKraft<span id="percent">0%</span></div>
+          <div class="loading-text" id="loading-text">Loading PlanKraft <span id="percent">0%</span></div>
       </div>
   </div>
 
@@ -567,6 +699,39 @@
 
       <section class="hero" id="hero">
         <div class="hero-bg" id="heroBg"></div>
+        
+        <div class="hero-clouds">
+          <div class="cloud-layer cloud-layer-1"></div>
+          <div class="cloud-layer cloud-layer-2"></div>
+        </div>
+
+        <div class="sunlight-glow"></div>
+        
+        <h1 class="hero-text">PlanKraft</h1>
+
+        <div class="house-sequence">
+          <div class="house-wrapper initial-bottom" id="house-0">
+            <div class="house-inner">
+              <img src="./assets/houses/house1.png" alt="Plankraft Architecture 1">
+            </div>
+          </div>
+          <div class="house-wrapper pos-right" id="house-1">
+            <div class="house-inner">
+              <img src="./assets/houses/house2.png" alt="Plankraft Architecture 2">
+            </div>
+          </div>
+          <div class="house-wrapper pos-right" id="house-2">
+            <div class="house-inner">
+              <img src="./assets/houses/house3.png" alt="Plankraft Architecture 3">
+            </div>
+          </div>
+          <div class="house-wrapper pos-right" id="house-3">
+            <div class="house-inner">
+              <img src="./assets/houses/house4.png" alt="Plankraft Architecture 4">
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <section class="section latest" id="latest">
@@ -849,7 +1014,8 @@
         </div>
       </footer>
 
-  </div> <script>
+  </div> 
+  <script>
     document.addEventListener("DOMContentLoaded", () => {
         // --- 1. INSTANT SNAP CRACK & ZOOM LOGIC ---
         const loaderOverlay = document.getElementById('loader-overlay');
@@ -859,7 +1025,7 @@
         
         let progress = 0;
         
-        // CHANGED: 4 Seconds exact timing (100 steps * 40ms = 4000ms)
+        // 4 Seconds exact timing
         const loadingInterval = setInterval(() => {
             progress += 1; 
             if (progress > 100) progress = 100;
@@ -875,78 +1041,112 @@
                 clearInterval(loadingInterval);
                 document.getElementById('loading-text').innerText = "Loading...";
                 
-                // Fade out the UI text so just the house is left
                 document.getElementById('progress-wrapper').classList.add('fade-out');
                 document.getElementById('loading-text').classList.add('fade-out');
                 
                 setTimeout(() => {
-                    // Clone the entire overlay
                     const leftScreen = loaderOverlay.cloneNode(true);
                     const rightScreen = loaderOverlay.cloneNode(true);
                     
-                    // Add classes for full screen masks
                     leftScreen.id = "screen-left";
                     rightScreen.id = "screen-right";
                     leftScreen.className = "screen-split-ready screen-left";
                     rightScreen.className = "screen-split-ready screen-right";
                     
-                    // Swap the DOM elements
                     document.body.appendChild(leftScreen);
                     document.body.appendChild(rightScreen);
                     loaderOverlay.remove();
                     
-                    // Force browser reflow to ensure styles apply
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
-                            
-                            // INSTANT BLAST. Slide straight horizontally.
                             leftScreen.classList.add('shatter-left-active');
                             rightScreen.classList.add('shatter-right-active');
                             
-                            // Trigger main website animations (Triggers the Fade & Zoom)
+                            // Start website animations
                             document.body.classList.add('start-animations');
-                            
-                            // Enable scrolling on the website
                             document.body.style.overflowY = 'auto';
                             
-                            // Cleanup clones after they have slid completely off screen
+                            // Initialize the premium house sequence precisely when the page is revealed
+                            startPremiumHouseSequence();
+
                             setTimeout(() => {
                                 leftScreen.remove();
                                 rightScreen.remove();
                             }, 1500);
-
                         });
                     });
                 }, 400); 
             }
         }, 40);
 
-        // --- 2. ORIGINAL WEBSITE JAVASCRIPT ---
+        // --- 2. PREMIUM HOUSE SEQUENCE LOGIC ---
+        function startPremiumHouseSequence() {
+          const houses = document.querySelectorAll('.house-wrapper');
+          if (houses.length === 0) return;
+
+          const totalHouses = houses.length;
+          let currentIndex = 0;
+
+          // Timing configuration matches the CSS transitions
+          const centerHoldTime = 3000; 
+          const transitionTime = 2500; 
+          const totalCycleTime = centerHoldTime + transitionTime; 
+
+          // 1. Initial Load: First house rises gracefully from the bottom
+          setTimeout(() => {
+            houses[0].classList.remove('initial-bottom');
+            houses[0].classList.add('pos-center');
+            houses[0].querySelector('.house-inner').classList.add('floating');
+          }, 100);
+
+          // 2. Infinite Loop Sequence - delay first cycle to allow 3 second hold in center
+          setTimeout(() => {
+            setInterval(() => {
+              const currentHouse = houses[currentIndex];
+              const nextIndex = (currentIndex + 1) % totalHouses;
+              const nextHouse = houses[nextIndex];
+
+              // Slide current house out to the left
+              currentHouse.classList.remove('pos-center');
+              currentHouse.classList.add('pos-left');
+              currentHouse.querySelector('.house-inner').classList.remove('floating');
+
+              // Next house slides in from the right to the center
+              nextHouse.classList.remove('pos-right');
+              // Ensure the initial bottom class is stripped if looping back to the first house
+              nextHouse.classList.remove('initial-bottom'); 
+              nextHouse.classList.add('pos-center');
+              nextHouse.querySelector('.house-inner').classList.add('floating');
+
+              // Reset the house that just exited left seamlessly back to the right side
+              setTimeout(() => {
+                currentHouse.classList.remove('pos-left');
+                currentHouse.style.transition = 'none'; // Temporarily disable CSS to teleport it instantly
+                currentHouse.classList.add('pos-right');
+                
+                void currentHouse.offsetWidth; // Force a browser reflow 
+                currentHouse.style.transition = ''; // Restore smooth transitions
+              }, transitionTime); 
+
+              currentIndex = nextIndex;
+            }, totalCycleTime);
+          }, centerHoldTime);
+        }
+
+        // --- 3. ORIGINAL WEBSITE JAVASCRIPT ---
         const nav = document.getElementById('mainNav');
         const navLinks = document.querySelectorAll('.nav-links a');
         const sections = document.querySelectorAll('section, .cta-section, footer');
 
-        // Map nav links to sections
-        const sectionMap = {
-          'Home': 'hero',
-          'About': 'about',
-          'Services': 'services',
-          'Gallery': 'gallery',
-          'Contact us': 'contact'
-        };
-
-        // Flag to prevent scroll from overriding click
         let isScrollingFromClick = false;
         let scrollEndTimer = null;
 
-        // Hamburger menu toggle (mobile-nav — separate from desktop nav)
         const mobileNav = document.getElementById('mobileNav');
         const mobHamburger = document.getElementById('mobHamburger');
         const mobOverlay = document.getElementById('mobOverlay');
 
         function toggleMobileMenu() {
           mobileNav.classList.toggle('open');
-          // Important: Only toggle overflow if we aren't in the middle of loading
           if (!document.getElementById('loader-overlay')) {
               document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : 'auto';
           }
@@ -954,7 +1154,6 @@
         mobHamburger.addEventListener('click', toggleMobileMenu);
         mobOverlay.addEventListener('click', toggleMobileMenu);
 
-        // Close mobile menu on link click
         document.querySelectorAll('.mob-panel a').forEach(link => {
           link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -967,7 +1166,6 @@
           });
         });
         
-        // Handle smooth scrolling on nav link click
         navLinks.forEach(link => {
           link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -975,7 +1173,6 @@
             const targetSection = document.getElementById(targetId);
 
             if (targetSection) {
-              // Lock the active state immediately
               isScrollingFromClick = true;
               if (scrollEndTimer) clearTimeout(scrollEndTimer);
               navLinks.forEach(l => l.classList.remove('active'));
@@ -987,7 +1184,6 @@
           });
         });
 
-        // Detect when scrolling stops to unlock click lock
         window.addEventListener('scroll', () => {
           if (isScrollingFromClick) {
             if (scrollEndTimer) clearTimeout(scrollEndTimer);
@@ -996,7 +1192,6 @@
         }, { passive: true });
 
         function updateActiveLink() {
-          // ALWAYS detect background color at nav position (even during click scroll)
           const navRect = nav.getBoundingClientRect();
           const navY = navRect.top + window.scrollY + 50;
 
@@ -1029,7 +1224,6 @@
 
           nav.classList.toggle('on-light', isOnLight);
 
-          // Skip active link detection while click animation is in progress
           if (isScrollingFromClick) return;
 
           let currentSection = null;
@@ -1074,18 +1268,15 @@
         window.addEventListener('scroll', () => {
           nav.classList.toggle('scrolled', window.scrollY > 60);
           updateActiveLink();
-        });
+        }, { passive: true });
 
-        // Initial call
         updateActiveLink();
 
-        // Initialize slider position
         const firstActiveLink = document.querySelector('.nav-links a.active');
         if (firstActiveLink) {
           setTimeout(() => updateSlider(firstActiveLink), 100);
         }
 
-        // Handle CTA button clicks
         const ctaBtn = document.getElementById('ctaContactBtn');
         const heroViewProjects = document.getElementById('heroViewProjects');
         const heroBookConsult = document.getElementById('heroBookConsult');
@@ -1099,7 +1290,6 @@
         if (heroViewProjects) heroViewProjects.addEventListener('click', () => scrollToSection('latest'));
         if (heroBookConsult) heroBookConsult.addEventListener('click', () => scrollToSection('contact'));
 
-        // Hero mouse parallax
         const heroBg = document.getElementById('heroBg');
         if (heroBg) {
           document.querySelector('.hero').addEventListener('mousemove', (e) => {
@@ -1110,8 +1300,6 @@
         }
 
         // ═══ PREMIUM ANIMATION ENGINE ═══
-
-        // 1. Auto-tag elements with reveal classes
         const revealSelectors = [
           { sel: '.latest-header', cls: 'reveal' },
           { sel: '.latest-card', cls: 'reveal', stagger: true },
@@ -1135,7 +1323,6 @@
           });
         });
 
-        // 2. Global scroll reveal observer
         const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
         const revealObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
@@ -1148,7 +1335,6 @@
 
         revealElements.forEach(el => revealObserver.observe(el));
 
-        // 3. Service cards scroll reveal
         const serviceCards = document.querySelectorAll('.service-card');
         const serviceObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
@@ -1160,9 +1346,8 @@
         }, { threshold: 0.15 });
         serviceCards.forEach(card => serviceObserver.observe(card));
 
-        // 4. Image blur-to-clear reveal
         document.querySelectorAll('img').forEach(img => {
-          if (img.closest('nav') || img.closest('.top-logo')) {
+          if (img.closest('nav') || img.closest('.top-logo') || img.closest('.house-wrapper')) {
             img.classList.add('img-loaded');
             return;
           }
@@ -1175,17 +1360,6 @@
           }
         });
 
-        // 5. Navbar scroll state
-        window.addEventListener('scroll', () => {
-          const y = window.scrollY;
-          if (y > 100) {
-            nav.classList.add('scrolled');
-          } else {
-            nav.classList.remove('scrolled');
-          }
-        }, { passive: true });
-
-        // 6. Subtle parallax (desktop only)
         if (window.innerWidth > 600) {
           const servicesBg = document.querySelector('.services-bg');
           if (servicesBg) {
