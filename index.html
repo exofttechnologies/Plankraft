@@ -5,6 +5,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PlanKraft</title>
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="./assets/icons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/icons/android-chrome-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./assets/icons/android-chrome-512x512.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -273,12 +280,11 @@
       text-wrap: balance;
       max-width: 90vw;
       word-spacing: normal;
-      transform: translateY(-8vh); /* Push up slightly to balance with houses */
     }
     
     @keyframes heroTextFadeIn {
-      from { opacity: 0; transform: translateY(10px) scale(0.95); }
-      to { opacity: 1; transform: translateY(-8vh) scale(1); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* ═══ PREMIUM CINEMATIC HOUSE SEQUENCE ═══ */
@@ -1188,6 +1194,24 @@
           if (isScrollingFromClick) {
             if (scrollEndTimer) clearTimeout(scrollEndTimer);
             scrollEndTimer = setTimeout(() => { isScrollingFromClick = false; }, 150);
+          }
+
+          // House parallax effect on scroll - only apply when scrolling past hero
+          const hero = document.querySelector('.hero');
+          const houseSequence = document.querySelector('.house-sequence');
+          if (hero && houseSequence) {
+            const heroRect = hero.getBoundingClientRect();
+            // Only apply parallax when hero bottom is near or above viewport
+            if (heroRect.bottom > 0) {
+              const scrollProgress = Math.max(0, -heroRect.top / heroRect.height);
+              if (scrollProgress > 0) {
+                const moveUp = scrollProgress * 300; // Move up by max 300px
+                const scale = 1 + scrollProgress * 0.4; // Scale from 1 to 1.4
+                houseSequence.style.transform = `translateY(-${moveUp}px) scale(${scale})`;
+              } else {
+                houseSequence.style.transform = 'translateY(0) scale(1)';
+              }
+            }
           }
         }, { passive: true });
 
