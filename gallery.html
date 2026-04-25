@@ -1,0 +1,112 @@
+<style>
+  /* ═══ GALLERY SECTION STYLES ═══ */
+  .gallery {
+    background: var(--white);
+    padding: 6rem 2.5rem;
+  }
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .gallery-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .gallery-title {
+    font-family: var(--ff-head);
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--near-black);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  .gallery-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .gallery-img {
+    width: 100%;
+    border-radius: 3px;
+    background: #e0ddd9;
+    overflow: hidden;
+  }
+  .gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .gallery-img:hover img {
+    transform: scale(1.05);
+  }
+  
+  /* Masonry Heights */
+  .gallery-img-tall { height: 420px; }
+  .gallery-img-mid { height: 320px; }
+  .gallery-img-short { height: 220px; }
+
+  @media (max-width: 900px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-col:nth-child(3) { display: none; /* Hides 3rd column on tablet */ }
+  }
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+    .gallery-col:nth-child(3) { display: flex; /* Shows all on mobile */ }
+  }
+</style>
+
+<section class="section gallery" id="gallery">
+  <div class="gallery-header reveal">
+    <div class="gallery-label">Our Gallery</div>
+    <h2 class="gallery-title">A Showcase of Vision,<br />Craft, and Form</h2>
+  </div>
+  
+  <div class="gallery-grid">
+    <div class="gallery-col reveal-scale stagger-1">
+      <div class="gallery-img gallery-img-tall">
+        <img src="./assets/1.jpg" alt="PlanKraft Project 1" loading="lazy">
+      </div>
+      <div class="gallery-img gallery-img-short">
+        <img src="./assets/4.jpeg" alt="PlanKraft Project 4" loading="lazy">
+      </div>
+      <div class="gallery-img gallery-img-mid">
+        <img src="./assets/7.jpeg" alt="PlanKraft Project 7" loading="lazy">
+      </div>
+    </div>
+    
+    <div class="gallery-col reveal-scale stagger-2">
+      <div class="gallery-img gallery-img-short">
+        <img src="./assets/2.jpg" alt="PlanKraft Project 2" loading="lazy">
+      </div>
+      <div class="gallery-img gallery-img-mid">
+        <img src="./assets/5.jpeg" alt="PlanKraft Project 5" loading="lazy">
+      </div>
+      <div class="gallery-img gallery-img-tall">
+        <img src="./assets/8.jpeg" alt="PlanKraft Project 8" loading="lazy">
+      </div>
+    </div>
+    
+    <div class="gallery-col reveal-scale stagger-3">
+      <div class="gallery-img gallery-img-mid">
+        <img src="./assets/3.jpg" alt="PlanKraft Project 3" loading="lazy">
+      </div>
+      <div class="gallery-img gallery-img-tall">
+        <img src="./assets/6.jpeg" alt="PlanKraft Project 6" loading="lazy">
+      </div>
+      <div class="gallery-img gallery-img-short">
+        <img src="./assets/10.jpg" alt="PlanKraft Project 10" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
