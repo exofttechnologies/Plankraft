@@ -591,7 +591,7 @@
 
     }
 
-    /* ─── ORIGINAL CONTENT SECTIONS CSS (UNCHANGED) ─── */
+    /* ─── ORIGINAL CONTENT SECTIONS CSS ─── */
     .section {
       padding: 6rem 2.5rem;
     }
@@ -1003,10 +1003,6 @@
       color: #6b6b7b;
     }
 
-    .gallery {
-      background: var(--white);
-    }
-
     .gallery-header {
       text-align: center;
       margin-bottom: 3rem;
@@ -1028,71 +1024,6 @@
       letter-spacing: -0.02em;
       line-height: 1.2;
       color: var(--near-black);
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-
-    .gallery-col {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .gallery-img {
-      width: 100%;
-      object-fit: cover;
-      border-radius: 3px;
-      background: #e0ddd9;
-      display: block;
-      overflow: hidden;
-    }
-
-    .gallery-img img {
-      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease, filter 0.7s ease;
-    }
-
-    .gallery-img:hover img {
-      transform: scale(1.05);
-    }
-
-    .gallery-img-tall {
-      height: 320px;
-    }
-
-    .gallery-img-short {
-      height: 320px;
-    }
-
-    .gallery-img-mid {
-      height: 320px;
-    }
-
-    .gallery-btn-wrap {
-      position: relative;
-      height: 320px;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .gallery-btn-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: blur(6px) brightness(0.55) !important;
-      transform: scale(1.1) !important;
-      opacity: 1 !important;
-    }
-
-    .gallery-btn-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .gallery-btn {
@@ -1131,6 +1062,144 @@
       width: 12px;
       height: 12px;
       color: white;
+    }
+
+    /* ═══ MODERN BENTO GALLERY ═══ */
+    .gallery-bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 280px;
+      gap: 1.25rem;
+      width: 100%;
+    }
+
+    .gb-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+      background: var(--light-bg);
+      /* Fix for Safari overflow bug */
+      transform: translateZ(0); 
+    }
+
+    /* Asymmetrical Grid Spanning */
+    .gb-item:nth-child(1) { grid-column: span 8; grid-row: span 2; } /* Main Feature */
+    .gb-item:nth-child(2) { grid-column: span 4; grid-row: span 1; }
+    .gb-item:nth-child(3) { grid-column: span 4; grid-row: span 1; }
+    .gb-item:nth-child(4) { grid-column: span 4; grid-row: span 1; }
+    .gb-item:nth-child(5) { grid-column: span 4; grid-row: span 1; }
+    .gb-item:nth-child(6) { grid-column: span 4; grid-row: span 1; } /* CTA Block */
+
+    .gb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      display: block;
+    }
+
+    /* Sibling Dimming Effect: Hovering the grid dims items NOT being hovered */
+    .gallery-bento:hover .gb-item:not(:hover) {
+      filter: grayscale(60%) brightness(0.6) blur(2px);
+      transform: scale(0.98);
+    }
+
+    .gb-item:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Sleek Information Overlay */
+    .gb-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%);
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .gb-item:hover .gb-overlay {
+      opacity: 1;
+    }
+
+    .gb-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.5rem;
+      transform: translateY(15px);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .gb-title {
+      font-family: var(--ff-head);
+      font-size: clamp(1.2rem, 2vw, 1.8rem);
+      font-weight: 600;
+      color: var(--white);
+      transform: translateY(15px);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
+    }
+
+    .gb-item:hover .gb-tag,
+    .gb-item:hover .gb-title {
+      transform: translateY(0);
+    }
+
+    /* CTA Block Styling */
+    .gb-item.gb-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--mid);
+    }
+
+    .gb-item.gb-cta img {
+      position: absolute;
+      inset: 0;
+      filter: blur(8px) brightness(0.35) !important;
+      transform: scale(1.1) !important;
+      opacity: 0.8;
+    }
+    
+    .gb-item.gb-cta:hover img {
+      transform: scale(1.15) !important;
+      filter: blur(4px) brightness(0.25) !important;
+    }
+
+    /* Mobile Responsiveness for Gallery */
+    @media (max-width: 900px) {
+      .gallery-bento {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 280px;
+      }
+      .gb-item {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+      }
+      .gb-item:nth-child(1) {
+        grid-row: span 2 !important; /* Keep feature image slightly larger */
+      }
+      
+      /* Always show text and disable dimming on touch devices */
+      .gb-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 50%);
+      }
+      .gb-tag, .gb-title {
+        transform: translateY(0);
+      }
+      .gallery-bento:hover .gb-item:not(:hover) {
+        filter: none;
+        transform: none;
+      }
     }
 
     .cta-section {
@@ -1412,23 +1481,6 @@
       .service-card:nth-child(4) {
         min-height: auto;
         margin-bottom: 0;
-      }
-
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-      }
-
-      .gallery-img-tall {
-        height: 280px;
-      }
-
-      .gallery-img-short {
-        height: 180px;
-      }
-
-      .gallery-img-mid {
-        height: 220px;
       }
 
       .cta-section {
@@ -1779,31 +1831,8 @@
         gap: 1.25rem;
       }
 
-      .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-
-      .gallery-img-tall,
-      .gallery-img-short,
-      .gallery-img-mid {
-        height: 220px;
-      }
-
       .gallery-title {
         font-size: 1.8rem;
-      }
-
-      .gallery-col:nth-child(1) {
-        order: 1;
-      }
-
-      .gallery-col:nth-child(2) {
-        order: 2;
-      }
-
-      .gallery-col:nth-child(3) {
-        order: 3;
       }
 
       .cta-section {
@@ -2023,7 +2052,7 @@
           </div>
         </div>
       </div>
-      </section>
+    </section>
 
     <section class="section about" id="about">
       <div class="about-grid">
@@ -2174,54 +2203,69 @@
     </section>
 
     <section class="section gallery" id="gallery">
-      <div class="gallery-header">
+      <div class="gallery-header reveal">
         <div class="gallery-label">Our Gallery</div>
         <h2 class="gallery-title">A Showcase of Vision,<br />Craft, and Form</h2>
       </div>
-      <div class="gallery-grid">
-        <div class="gallery-col">
-          <div class="gallery-img gallery-img-tall" style="border-radius:3px;">
-            <img src="./assets/1.jpg" alt="Gallery Image 1"
-              style="width:100%;height:100%;object-fit:cover;display:block;border-radius:3px;">
-          </div>
-          <div class="gallery-img gallery-img-short" style="border-radius:3px;">
-            <img src="./assets/3.jpg" alt="Gallery Image 2"
-              style="width:100%;height:100%;object-fit:cover;display:block;border-radius:3px;">
-          </div>
-        </div>
-        <div class="gallery-col">
-          <div class="gallery-img gallery-img-mid" style="border-radius:3px;">
-            <img src="./assets/4.jpeg" alt="Gallery Image 3"
-              style="width:100%;height:100%;object-fit:cover;display:block;border-radius:3px;">
-          </div>
-          <div class="gallery-img gallery-img-mid" style="border-radius:3px;">
-            <img src="./assets/6.jpeg" alt="Gallery Image 4"
-              style="width:100%;height:100%;object-fit:cover;display:block;border-radius:3px;">
+      
+      <div class="gallery-bento reveal">
+        
+        <div class="gb-item">
+          <img src="./assets/1.jpg" alt="Modern Malabar Residence">
+          <div class="gb-overlay">
+            <span class="gb-tag">Premium Residential</span>
+            <h3 class="gb-title">Modern Malabar Residence</h3>
           </div>
         </div>
-        <div class="gallery-col">
-          <div class="gallery-img gallery-img-tall" style="border-radius:3px;">
-            <img src="./assets/8.jpeg" alt="Gallery Image 5"
-              style="width:100%;height:100%;object-fit:cover;display:block;border-radius:3px;">
-          </div>
-          <div class="gallery-btn-wrap">
-            <img src="./assets/10.jpg" alt="Gallery Image 6"
-              style="width:100%;height:100%;object-fit:cover;display:block;border-radius:3px;">
-            <div class="gallery-btn-overlay">
-              <button class="gallery-btn" onclick="window.location.href='gallery.html'">
-                View Our Stunning Gallery
-                <div class="gallery-btn-icon">
-                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M2 8h7M6 4l4 4-4 4M10 8h4" />
-                  </svg>
-                </div>
-              </button>
-            </div>
+
+        <div class="gb-item">
+          <img src="./assets/3.jpg" alt="Kerala Style Elevation">
+          <div class="gb-overlay">
+            <span class="gb-tag">Traditional</span>
+            <h3 class="gb-title">Kerala Style Elevation</h3>
           </div>
         </div>
+
+        <div class="gb-item">
+          <img src="./assets/4.jpeg" alt="Commercial Plaza">
+          <div class="gb-overlay">
+            <span class="gb-tag">Commercial</span>
+            <h3 class="gb-title">The Plaza Space</h3>
+          </div>
+        </div>
+
+        <div class="gb-item">
+          <img src="./assets/6.jpeg" alt="Interior Details">
+          <div class="gb-overlay">
+            <span class="gb-tag">Interior</span>
+            <h3 class="gb-title">Minimalist Living</h3>
+          </div>
+        </div>
+
+        <div class="gb-item">
+          <img src="./assets/8.jpeg" alt="Tropical Villa">
+          <div class="gb-overlay">
+            <span class="gb-tag">Residential</span>
+            <h3 class="gb-title">Tropical Villa</h3>
+          </div>
+        </div>
+
+        <div class="gb-item gb-cta" onclick="window.location.href='gallery.html'">
+          <img src="./assets/10.jpg" alt="Gallery Background">
+          <div style="position: relative; z-index: 2; text-align: center;">
+            <button class="gallery-btn" style="margin: 0 auto; pointer-events: none;">
+              View Full Gallery
+              <div class="gallery-btn-icon">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M2 8h7M6 4l4 4-4 4M10 8h4" />
+                </svg>
+              </div>
+            </button>
+          </div>
+        </div>
+
       </div>
     </section>
-
     <div class="cta-section" id="contact">
       <div class="cta-arch-img">
         <img src="./assets/9.png" alt="Architecture"
@@ -2586,7 +2630,7 @@
         { sel: '.about-col-inner', cls: 'reveal', stagger: true },
         { sel: '.services-intro', cls: 'reveal' },
         { sel: '.gallery-header', cls: 'reveal' },
-        { sel: '.gallery-col', cls: 'reveal-scale', stagger: true },
+        { sel: '.gallery-bento', cls: 'reveal' }, // Replaced gallery columns with Bento container
         { sel: '.cta-content', cls: 'reveal-right' },
         { sel: '.cta-arch-img', cls: 'reveal-left' },
         { sel: '.footer-top', cls: 'reveal' },

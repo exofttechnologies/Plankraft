@@ -1,112 +1,294 @@
-<style>
-  /* ═══ GALLERY SECTION STYLES ═══ */
-  .gallery {
-    background: var(--white);
-    padding: 6rem 2.5rem;
-  }
-  .gallery-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  .gallery-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 0.75rem;
-  }
-  .gallery-title {
-    font-family: var(--ff-head);
-    font-size: clamp(1.75rem, 3vw, 2.75rem);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    color: var(--near-black);
-  }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-  }
-  .gallery-col {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-  .gallery-img {
-    width: 100%;
-    border-radius: 3px;
-    background: #e0ddd9;
-    overflow: hidden;
-  }
-  .gallery-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .gallery-img:hover img {
-    transform: scale(1.05);
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Portfolio | PlanKraft</title>
   
-  /* Masonry Heights */
-  .gallery-img-tall { height: 420px; }
-  .gallery-img-mid { height: 320px; }
-  .gallery-img-short { height: 220px; }
+  <style>
+    /* ═══ GLOBAL RESETS & VARS ═══ */
+    :root {
+      --gallery-bg: #fdfdfc;
+      --gallery-text-main: #1a1a1a;
+      --gallery-text-muted: #6c757d;
+      --gallery-accent: #c2a67e; 
+      --gallery-radius: 8px;
+      --ff-head: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
 
-  @media (max-width: 900px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-    .gallery-col:nth-child(3) { display: none; /* Hides 3rd column on tablet */ }
-  }
-  @media (max-width: 600px) {
-    .gallery-grid { grid-template-columns: 1fr; }
-    .gallery-col:nth-child(3) { display: flex; /* Shows all on mobile */ }
-  }
-</style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--gallery-bg);
+    }
 
-<section class="section gallery" id="gallery">
-  <div class="gallery-header reveal">
-    <div class="gallery-label">Our Gallery</div>
-    <h2 class="gallery-title">A Showcase of Vision,<br />Craft, and Form</h2>
-  </div>
-  
-  <div class="gallery-grid">
-    <div class="gallery-col reveal-scale stagger-1">
-      <div class="gallery-img gallery-img-tall">
-        <img src="./assets/1.jpg" alt="PlanKraft Project 1" loading="lazy">
-      </div>
-      <div class="gallery-img gallery-img-short">
-        <img src="./assets/4.jpeg" alt="PlanKraft Project 4" loading="lazy">
-      </div>
-      <div class="gallery-img gallery-img-mid">
-        <img src="./assets/7.jpeg" alt="PlanKraft Project 7" loading="lazy">
+    /* ═══ UPGRADED GALLERY STYLES ═══ */
+    .gallery-section {
+      background-color: var(--gallery-bg);
+      padding: 8rem 5%;
+    }
+
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header Styling */
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      max-width: 700px;
+      margin-inline: auto;
+    }
+
+    .gallery-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gallery-accent);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .gallery-label::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 2px;
+      background-color: var(--gallery-accent);
+    }
+
+    .gallery-title {
+      font-family: var(--ff-head, inherit);
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--gallery-text-main);
+      margin-top: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .gallery-subtitle {
+      color: var(--gallery-text-muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Fluid Masonry Grid using Columns */
+    .masonry-grid {
+      column-count: 3;
+      column-gap: 1.5rem;
+    }
+
+    .masonry-item {
+      margin: 0 0 1.5rem 0;
+      break-inside: avoid; /* Prevents images from splitting across columns */
+      position: relative;
+      border-radius: var(--gallery-radius);
+      overflow: hidden;
+      background: #e0ddd9; /* Skeleton load color */
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      transform: translateZ(0); /* Hardware acceleration */
+    }
+
+    .masonry-item img {
+      width: 100%;
+      height: auto; /* Respects natural image aspect ratio */
+      display: block;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .masonry-item:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Gradient & Text Overlay */
+    .masonry-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top, 
+        rgba(0,0,0,0.85) 0%, 
+        rgba(0,0,0,0.3) 50%, 
+        transparent 100%
+      );
+      opacity: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      transition: opacity 0.4s ease;
+      z-index: 2;
+    }
+
+    .masonry-item:hover .masonry-overlay {
+      opacity: 1;
+    }
+
+    .overlay-text {
+      color: #ffffff;
+      transform: translateY(15px);
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .masonry-item:hover .overlay-text {
+      transform: translateY(0);
+    }
+
+    .overlay-text h3 {
+      font-family: var(--ff-head, inherit);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0 0 0.35rem 0;
+      letter-spacing: -0.01em;
+    }
+
+    .overlay-text span {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Responsive Rules */
+    @media (max-width: 992px) {
+      .masonry-grid {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .gallery-section { padding: 5rem 5%; }
+      
+      .masonry-grid {
+        column-count: 1;
+      }
+      
+      /* On mobile, keep the overlay slightly visible so users know there is text */
+      .masonry-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 80%);
+        padding: 1.5rem;
+      }
+      
+      .overlay-text {
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="gallery-section" id="gallery">
+    <div class="gallery-container">
+      
+      <header class="gallery-header reveal">
+        <span class="gallery-label">Our Portfolio</span>
+        <h2 class="gallery-title">A Showcase of Vision,<br />Craft, and Form</h2>
+        <p class="gallery-subtitle">Explore a curated collection of our finest architectural and design innovations.</p>
+      </header>
+
+      <div class="masonry-grid">
+        
+        <figure class="masonry-item reveal-scale stagger-1">
+          <img src="./assets/1.jpg" alt="PlanKraft Project 1" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Modern Villa</h3>
+              <span>Exterior Design</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-2">
+          <img src="./assets/2.jpg" alt="PlanKraft Project 2" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Urban Loft</h3>
+              <span>Interior Architecture</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-3">
+          <img src="./assets/3.jpg" alt="PlanKraft Project 3" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>The Glass Pavilion</h3>
+              <span>Commercial Space</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-1">
+          <img src="./assets/4.jpeg" alt="PlanKraft Project 4" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Alpine Retreat</h3>
+              <span>Residential</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-2">
+          <img src="./assets/5.jpeg" alt="PlanKraft Project 5" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Minimalist Studio</h3>
+              <span>Interior Design</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-3">
+          <img src="./assets/6.jpeg" alt="PlanKraft Project 6" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Eco Complex</h3>
+              <span>Urban Planning</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-1">
+          <img src="./assets/7.jpeg" alt="PlanKraft Project 7" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Oceanside Estate</h3>
+              <span>Landscape & Architecture</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-2">
+          <img src="./assets/8.jpeg" alt="PlanKraft Project 8" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Heritage Restoration</h3>
+              <span>Renovation</span>
+            </div>
+          </figcaption>
+        </figure>
+
+        <figure class="masonry-item reveal-scale stagger-3">
+          <img src="./assets/10.jpg" alt="PlanKraft Project 10" loading="lazy">
+          <figcaption class="masonry-overlay">
+            <div class="overlay-text">
+              <h3>Skyline Tower</h3>
+              <span>High-Rise</span>
+            </div>
+          </figcaption>
+        </figure>
+
       </div>
     </div>
-    
-    <div class="gallery-col reveal-scale stagger-2">
-      <div class="gallery-img gallery-img-short">
-        <img src="./assets/2.jpg" alt="PlanKraft Project 2" loading="lazy">
-      </div>
-      <div class="gallery-img gallery-img-mid">
-        <img src="./assets/5.jpeg" alt="PlanKraft Project 5" loading="lazy">
-      </div>
-      <div class="gallery-img gallery-img-tall">
-        <img src="./assets/8.jpeg" alt="PlanKraft Project 8" loading="lazy">
-      </div>
-    </div>
-    
-    <div class="gallery-col reveal-scale stagger-3">
-      <div class="gallery-img gallery-img-mid">
-        <img src="./assets/3.jpg" alt="PlanKraft Project 3" loading="lazy">
-      </div>
-      <div class="gallery-img gallery-img-tall">
-        <img src="./assets/6.jpeg" alt="PlanKraft Project 6" loading="lazy">
-      </div>
-      <div class="gallery-img gallery-img-short">
-        <img src="./assets/10.jpg" alt="PlanKraft Project 10" loading="lazy">
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+
+</body>
+</html>
