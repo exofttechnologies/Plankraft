@@ -16,10 +16,15 @@
       --ff-head: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, sans-serif;
       background-color: var(--gallery-bg);
+      overflow-x: hidden;
     }
 
     /* ═══ UPGRADED GALLERY STYLES ═══ */
@@ -43,7 +48,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 0 2rem;
+        padding: 4rem 2rem;
         text-align: center;
         overflow: hidden;
     }
@@ -59,6 +64,7 @@
         background: radial-gradient(ellipse at center bottom, rgba(255, 200, 100, 0.05) 0%, transparent 70%);
         z-index: 1;
         pointer-events: none;
+        max-width: 100%;
     }
 
     .page-hero h1 {
@@ -86,6 +92,7 @@
         opacity: 0;
         transform: translateY(20px);
         animation: fadeUpMin 1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+        margin: 0 auto;
     }
 
     @keyframes fadeUpMin {
@@ -93,7 +100,7 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Fluid Masonry Grid using Columns */
+    /* Fluid Masonry Grid */
     .masonry-grid {
       column-count: 3;
       column-gap: 1.5rem;
@@ -101,19 +108,19 @@
 
     .masonry-item {
       margin: 0 0 1.5rem 0;
-      break-inside: avoid; /* Prevents images from splitting across columns */
+      break-inside: avoid;
       position: relative;
       border-radius: var(--gallery-radius);
       overflow: hidden;
-      background: #e0ddd9; /* Skeleton load color */
+      background: #e0ddd9;
       cursor: pointer;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      transform: translateZ(0); /* Hardware acceleration */
+      transform: translateZ(0);
     }
 
     .masonry-item img {
       width: 100%;
-      height: auto; /* Respects natural image aspect ratio */
+      height: auto;
       display: block;
       transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
     }
@@ -122,7 +129,6 @@
       transform: scale(1.06);
     }
 
-    /* Gradient & Text Overlay */
     .masonry-overlay {
       position: absolute;
       inset: 0;
@@ -136,6 +142,7 @@
       display: flex;
       align-items: flex-end;
       padding: 2rem;
+      margin: 0;
       transition: opacity 0.4s ease;
       z-index: 2;
     }
@@ -169,32 +176,6 @@
       color: rgba(255, 255, 255, 0.7);
     }
 
-    /* Responsive Rules */
-    @media (max-width: 992px) {
-      .masonry-grid {
-        column-count: 2;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .gallery-section { padding: 5rem 5%; }
-      
-      .masonry-grid {
-        column-count: 1;
-      }
-      
-      /* On mobile, keep the overlay slightly visible so users know there is text */
-      .masonry-overlay {
-        opacity: 1;
-        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 80%);
-        padding: 1.5rem;
-      }
-      
-      .overlay-text {
-        transform: translateY(0);
-      }
-    }
-
     .top-logo {
         position: absolute;
         top: 2rem;
@@ -213,12 +194,184 @@
         object-fit: contain;
     }
 
+    /* ═══ VIDEO GALLERY SECTION ═══ */
+    .video-gallery-section {
+      background-color: var(--gallery-bg);
+      padding: 2rem 5% 6rem;
+    }
+
+    .video-gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .video-section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .video-section-label {
+      display: inline-block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gallery-accent);
+      background: rgba(194, 166, 126, 0.1);
+      padding: 0.4rem 1.2rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .video-section-title {
+      font-family: var(--ff-head);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      color: var(--gallery-text-main);
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .video-grid {
+      column-count: 3;
+      column-gap: 1.5rem;
+    }
+
+    /* ═══ INDIVIDUAL VIDEO CARDS ═══ */
+    .video-item {
+      position: relative;
+      margin-bottom: 1.5rem;
+      break-inside: avoid;
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9; /* Default landscape */
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      background-color: #111; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease;
+      isolation: isolate;
+    }
+
+    /* Keeps portrait videos elegant without taking up the whole screen */
+    .video-item.portrait {
+      aspect-ratio: 4 / 5;
+      max-height: 70vh; 
+    }
+
+    .video-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+    }
+
+    .video-item.is-playing {
+      cursor: default;
+      transform: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    /* Video element sits at the back */
+    .video-item video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      background: #111;
+    }
+
+    /* The UI layer sits on top of the paused video */
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: opacity 0.4s ease;
+      background: rgba(0,0,0,0.15); /* Slight darkening so the play button pops */
+    }
+
+    .video-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Subtle edge lighting effect */
+    .thumb-glass {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .thumb-glass::after {
+      content: '';
+      position: absolute;
+      inset: 5%;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+    }
+
+    /* Video label */
+    .thumb-label {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 1.2rem;
+      z-index: 3;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    /* Play button */
+    .play-btn {
+      position: relative;
+      z-index: 5;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+
+    .video-item:hover .play-btn {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .play-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: #fff;
+      margin-left: 4px;
+    }
+
+    .video-item.revealed {
+      transform: translateY(0);
+    }
+
+    .video-item.revealed:hover:not(.is-playing) {
+      transform: translateY(-4px);
+    }
+
     /* ═══ FOOTER ═══ */
     footer {
         background: #1a1a1a;
         color: #ffffff;
-        padding: 3.5rem 4rem 0;
-        margin-top: 4rem;
+        padding: 4rem 4rem 0;
         font-family: 'Manrope', sans-serif;
     }
 
@@ -227,6 +380,8 @@
         grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
         gap: 2.5rem;
         padding-bottom: 2.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
     }
 
     .footer-brand-col .footer-logo {
@@ -255,6 +410,7 @@
     .footer-links {
         list-style: none;
         padding: 0;
+        margin: 0;
         display: flex;
         flex-direction: column;
         gap: 0.7rem;
@@ -270,91 +426,50 @@
         gap: 0.4rem;
     }
 
-    .footer-links li a::before {
-        content: '+';
-        color: #ff7043;
-        font-weight: 600;
-    }
-
+    .footer-links li a::before { content: '+'; color: #ff7043; font-weight: 600; }
     .footer-links li a:hover { color: #ff7043; }
 
     .footer-bottom {
-        text-align: center;
-        padding: 1.2rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 1.5rem 0;
         border-top: 1px solid rgba(255, 255, 255, 0.08);
-        font-size: 0.78rem;
+        font-size: clamp(0.55rem, 2.5vw, 0.78rem);
         color: rgba(255, 255, 255, 0.35);
+        white-space: nowrap;
     }
 
     .footer-bottom a {
         color: #f97316;
         text-decoration: none;
         font-weight: 600;
+        margin-left: 0.3rem;
     }
 
-    .social-links {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
+    /* ═══ RESPONSIVE MEDIA QUERIES ═══ */
+    @media (max-width: 992px) {
+      .masonry-grid, .video-grid { column-count: 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand-col { grid-column: 1 / -1; }
+      footer { padding: 3rem 3rem 0; }
     }
 
-    .social-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.08);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.3s, transform 0.3s;
-    }
-
-    .social-btn:hover {
-        background: rgba(249, 115, 22, 0.25);
-        transform: translateY(-2px);
-    }
-
-    .social-btn svg {
-        width: 15px;
-        height: 15px;
-        fill: white;
-    }
-
-    .footer-contact-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.6rem;
-        margin-bottom: 0.9rem;
-        font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.55);
-        line-height: 1.5;
-    }
-
-    .footer-contact-item svg {
-        width: 16px;
-        height: 16px;
-        fill: #f97316;
-        flex-shrink: 0;
-        margin-top: 2px;
-    }
-
-    .footer-contact-item a {
-        color: rgba(255, 255, 255, 0.55);
-        text-decoration: none;
-        transition: color 0.2s;
-    }
-
-    .footer-contact-item a:hover {
-        color: #f97316;
-    }
-
-    @media (max-width: 900px) {
-        .footer-grid { grid-template-columns: 1fr 1fr; }
-        .footer-brand-col { grid-column: 1 / -1; }
-    }
     @media (max-width: 600px) {
-        .footer-grid { grid-template-columns: 1fr; }
-        footer { padding: 3.5rem 2rem 0; }
+      .gallery-section, .video-gallery-section { padding: 4rem 5%; }
+      .masonry-grid, .video-grid { column-count: 1; }
+      .masonry-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 80%);
+        padding: 1.5rem;
+      }
+      .overlay-text { transform: translateY(0); }
+      .top-logo { top: 1.5rem; left: 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .footer-grid > div:last-child { grid-column: 1 / -1; }
+      footer { padding: 3rem 1.5rem 0; }
+      .page-hero { padding: 3rem 1.5rem; }
     }
   </style>
 </head>
@@ -371,172 +486,194 @@
 
   <section class="gallery-section" id="gallery">
     <div class="gallery-container">
-
       <div class="masonry-grid">
-        
-        <figure class="masonry-item reveal-scale stagger-1">
-          <img src="./assets/1.jpg" alt="PlanKraft Project 1" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Modern Villa</h3>
-              <span>Exterior Design</span>
-            </div>
-          </figcaption>
-        </figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/1.jpg" alt="PlanKraft Project 1" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Modern Villa</h3><span>Exterior Design</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/2.jpg" alt="PlanKraft Project 2" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Urban Loft</h3><span>Interior Architecture</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/3.jpg" alt="PlanKraft Project 3" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>The Glass Pavilion</h3><span>Commercial Space</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/4.jpeg" alt="PlanKraft Project 4" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Alpine Retreat</h3><span>Residential</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/5.jpeg" alt="PlanKraft Project 5" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Minimalist Studio</h3><span>Interior Design</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/6.jpeg" alt="PlanKraft Project 6" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Eco Complex</h3><span>Urban Planning</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/7.jpeg" alt="PlanKraft Project 7" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Oceanside Estate</h3><span>Landscape & Architecture</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/8.jpeg" alt="PlanKraft Project 8" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Heritage Restoration</h3><span>Renovation</span></div></figcaption></figure>
+        <figure class="masonry-item reveal-scale"><img src="./assets/10.jpg" alt="PlanKraft Project 10" loading="lazy"><figcaption class="masonry-overlay"><div class="overlay-text"><h3>Skyline Tower</h3><span>High-Rise</span></div></figcaption></figure>
+      </div>
+    </div>
+  </section>
 
-        <figure class="masonry-item reveal-scale stagger-2">
-          <img src="./assets/2.jpg" alt="PlanKraft Project 2" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Urban Loft</h3>
-              <span>Interior Architecture</span>
-            </div>
-          </figcaption>
-        </figure>
+  <section class="video-gallery-section" id="video-gallery">
+    <div class="video-gallery-container">
 
-        <figure class="masonry-item reveal-scale stagger-3">
-          <img src="./assets/3.jpg" alt="PlanKraft Project 3" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>The Glass Pavilion</h3>
-              <span>Commercial Space</span>
-            </div>
-          </figcaption>
-        </figure>
+      <div class="video-section-header">
+        <div class="video-section-label">Showreel</div>
+        <h2 class="video-section-title">Project Videos</h2>
+      </div>
 
-        <figure class="masonry-item reveal-scale stagger-1">
-          <img src="./assets/4.jpeg" alt="PlanKraft Project 4" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Alpine Retreat</h3>
-              <span>Residential</span>
-            </div>
-          </figcaption>
-        </figure>
+      <div class="video-grid">
 
-        <figure class="masonry-item reveal-scale stagger-2">
-          <img src="./assets/5.jpeg" alt="PlanKraft Project 5" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Minimalist Studio</h3>
-              <span>Interior Design</span>
-            </div>
-          </figcaption>
-        </figure>
+        <div class="video-item">
+          <video src="./assets/gallery_videos/aivid1.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">AI Visualization 1</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
 
-        <figure class="masonry-item reveal-scale stagger-3">
-          <img src="./assets/6.jpeg" alt="PlanKraft Project 6" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Eco Complex</h3>
-              <span>Urban Planning</span>
-            </div>
-          </figcaption>
-        </figure>
+        <div class="video-item">
+          <video src="./assets/gallery_videos/aivid2.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">AI Visualization 2</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
 
-        <figure class="masonry-item reveal-scale stagger-1">
-          <img src="./assets/7.jpeg" alt="PlanKraft Project 7" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Oceanside Estate</h3>
-              <span>Landscape & Architecture</span>
-            </div>
-          </figcaption>
-        </figure>
+        <div class="video-item">
+          <video src="./assets/gallery_videos/edit1.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">Project Showcase 1</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
 
-        <figure class="masonry-item reveal-scale stagger-2">
-          <img src="./assets/8.jpeg" alt="PlanKraft Project 8" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Heritage Restoration</h3>
-              <span>Renovation</span>
-            </div>
-          </figcaption>
-        </figure>
+        <div class="video-item">
+          <video src="./assets/gallery_videos/edit2.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">Project Showcase 2</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
 
-        <figure class="masonry-item reveal-scale stagger-3">
-          <img src="./assets/10.jpg" alt="PlanKraft Project 10" loading="lazy">
-          <figcaption class="masonry-overlay">
-            <div class="overlay-text">
-              <h3>Skyline Tower</h3>
-              <span>High-Rise</span>
-            </div>
-          </figcaption>
-        </figure>
+        <div class="video-item">
+          <video src="./assets/gallery_videos/edit3.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">Project Showcase 3</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
+
+        <div class="video-item">
+          <video src="./assets/gallery_videos/raw1.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">Site Footage 1</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
+
+        <div class="video-item">
+          <video src="./assets/gallery_videos/raw2.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">Site Footage 2</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
+
+        <div class="video-item">
+          <video src="./assets/gallery_videos/raw3.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">Site Footage 3</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
+
+        <div class="video-item">
+          <video src="./assets/gallery_videos/raw4.mp4#t=0.001" preload="metadata" muted playsinline></video>
+          <div class="video-overlay">
+            <div class="thumb-glass"></div>
+            <span class="thumb-label">Site Footage 4</span>
+            <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          </div>
+        </div>
 
       </div>
     </div>
   </section>
 
   <footer id="footer">
-    <div class="footer-grid">
-      <!-- Brand Column -->
-      <div class="footer-brand-col">
-        <img src="./assets/logo.png" alt="Plankraft Logo" class="footer-logo">
-        <p class="footer-desc">Plankraft Engineers & Builders — crafting timeless architecture with precision, elegance, and modern engineering excellence across Kerala.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/share/1DqDt3Rjsw/" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" /></svg>
-          </a>
-          <a href="https://www.instagram.com/plankraft_engineers_builders?igsh=ZjlrcGZ1cWRrYWxh" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
-          </a>
-          <a href="https://api.whatsapp.com/send/?phone=919645816333&text=Hai+%0D%0AI+want+to+know+more+about+your+service.&type=phone_number&app_absent=0" target="_blank" rel="noopener" class="social-btn" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
-          </a>
-          <a href="https://www.youtube.com/@plankraftengineersbuilders8644" target="_blank" rel="noopener" class="social-btn" aria-label="YouTube">
-            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- Quick Links -->
-      <div>
-        <h4 class="footer-col-title">Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="index.html#hero">Homepage</a></li>
-          <li><a href="index.html#latest">Our Projects</a></li>
-          <li><a href="index.html#about">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
-        </ul>
-      </div>
-
-      <!-- Other Pages -->
-      <div>
-        <h4 class="footer-col-title">Other Pages</h4>
-        <ul class="footer-links">
-          <li><a href="services.html">Our Services</a></li>
-          <li><a href="gallery.html">Full Gallery</a></li>
-          <li><a href="contact.html">Get a Quote</a></li>
-        </ul>
-      </div>
-
-      <!-- Contact Info -->
-      <div>
-        <h4 class="footer-col-title">Contact Info</h4>
-        <div class="footer-contact-item">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          <a href="https://maps.app.goo.gl/Er46LezjWVYWkQSH8" target="_blank" rel="noopener">Malappuram, Kerala, India</a>
-        </div>
-        <div class="footer-contact-item">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <a href="mailto:Info.plankraft@gmail.com">Info.plankraft@gmail.com</a>
-        </div>
-        <div class="footer-contact-item" style="align-items: flex-start;">
-          <svg viewBox="0 0 24 24" style="margin-top: 4px;"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-          <div style="display: flex; flex-direction: column; gap: 0.3rem;">
-            <a href="tel:+918281816333">+91 82818 16333</a>
-            <a href="tel:+919645816333">+91 96458 16333</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="footer-bottom">
-      &copy; 2025 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers &amp; Builders</a>.
+      © 2025 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers & Builders</a>.
     </div>
   </footer>
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      
+      // ═══ Scroll Reveal for UI ═══
+      const revealEls = document.querySelectorAll('.reveal-scale, .video-item');
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+      revealEls.forEach(el => revealObs.observe(el));
+
+
+      // ═══ Video Gallery Logic ═══
+      const videoItems = document.querySelectorAll('.video-item');
+      let currentlyPlaying = null;
+
+      function pauseOtherVideos(exceptItem) {
+        videoItems.forEach(item => {
+          if (item !== exceptItem && item.classList.contains('is-playing')) {
+            const video = item.querySelector('video');
+            const overlay = item.querySelector('.video-overlay');
+            
+            video.pause();
+            overlay.classList.remove('hidden');
+            item.classList.remove('is-playing');
+            video.removeAttribute('controls');
+          }
+        });
+      }
+
+      videoItems.forEach(item => {
+        const video = item.querySelector('video');
+        const overlay = item.querySelector('.video-overlay');
+
+        // Dynamically detect portrait vs landscape as the metadata loads
+        video.addEventListener('loadedmetadata', function() {
+          if (this.videoHeight > this.videoWidth) {
+            item.classList.add('portrait');
+          } else {
+            item.classList.add('landscape');
+          }
+        });
+
+        // Play video on click
+        item.addEventListener('click', function() {
+          if (this.classList.contains('is-playing')) return;
+
+          pauseOtherVideos(this);
+
+          // Add native controls and play
+          video.setAttribute('controls', '');
+          overlay.classList.add('hidden');
+          video.play().catch(e => console.log('Autoplay prevented:', e));
+
+          this.classList.add('is-playing');
+          currentlyPlaying = this;
+        });
+
+        // Reset UI when video finishes
+        video.addEventListener('ended', () => {
+          overlay.classList.remove('hidden');
+          item.classList.remove('is-playing');
+          video.removeAttribute('controls'); // Remove controls so custom overlay is clickable again
+          video.currentTime = 0.001; // Reset to start
+          currentlyPlaying = null;
+        });
+      });
+      
+    });
+  </script>
 </body>
 </html>

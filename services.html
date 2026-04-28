@@ -171,7 +171,9 @@
         .core-services {
             background: var(--near-black);
             color: var(--white);
-            padding: 7rem 2.5rem;
+            /* INCREASED TOP PADDING FROM 7rem TO 10rem TO PUSH DOWN */
+            /* INCREASED BOTTOM PADDING FROM 7rem TO 15rem TO PREVENT DROPDOWN CUTOFF */
+            padding: 10rem 2.5rem 15rem;
         }
 
         .core-header {
@@ -205,24 +207,86 @@
             margin: 0 auto;
         }
 
+        /* UPDATED CHECKLIST ITEM CSS: Absolute Positioning to Prevent Grid Shaking */
         .checklist-item {
+            position: relative; /* Keeps the dropdown attached to this item */
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
             font-size: 1.1rem;
             font-weight: 400;
             letter-spacing: 0.02em;
             color: rgba(255, 255, 255, 0.85);
-            background: rgba(255, 255, 255, 0.03);
+            background: #171717; /* Solid color hides cards behind dropdown */
             padding: 1.5rem 2rem;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s ease, background 0.3s ease;
+            transition: background 0.3s ease, border-radius 0.3s ease; /* Removed transform to stop shaking */
+            cursor: pointer;
+            z-index: 1; /* Base layer */
+            
+            /* ADDED THIS to prevent text highlighting when double tapping on mobile */
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        .checklist-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.06);
+        .checklist-item.active {
+            background: #202020;
             border-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px 8px 0 0; /* Flat bottom for smooth dropdown attachment */
+            z-index: 10; /* Bring active item to front */
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .checklist-item:hover {
+                background: #202020;
+                border-color: rgba(255, 255, 255, 0.1);
+                border-radius: 8px 8px 0 0;
+                z-index: 10;
+            }
+        }
+
+        .checklist-item-header {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .checklist-item-desc {
+            position: absolute; /* Takes description out of layout so grid doesn't expand */
+            top: 100%;
+            left: -1px; /* Align precisely with the border */
+            width: calc(100% + 2px);
+            background: #202020; /* Matches hover background */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.6;
+            padding: 0 2rem;
+            max-height: 0;
+            opacity: 0;
+            visibility: hidden;
+            overflow: hidden; /* Hide text when closed */
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); /* Shadow makes it pop over cards below */
+        }
+
+        .checklist-item.active .checklist-item-desc {
+            opacity: 1;
+            visibility: visible;
+            max-height: 180px;
+            padding: 1rem 2rem 1.5rem;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .checklist-item:hover .checklist-item-desc {
+                opacity: 1;
+                visibility: visible;
+                max-height: 180px;
+                padding: 1rem 2rem 1.5rem;
+            }
         }
 
         .check-icon {
@@ -424,17 +488,22 @@
         .footer-links li a:hover { color: var(--accent-light); }
 
         .footer-bottom {
-            text-align: center;
-            padding: 1.2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 1.5rem 0;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 0.78rem;
+            font-size: clamp(0.55rem, 2.5vw, 0.78rem);
             color: rgba(255, 255, 255, 0.35);
+            white-space: nowrap;
         }
 
         .footer-bottom a {
             color: #f97316;
             text-decoration: none;
             font-weight: 600;
+            margin-left: 0.3rem;
         }
 
         .social-links {
@@ -519,7 +588,8 @@
         }
         @media (max-width: 600px) {
             .services-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid > div:last-child { grid-column: 1 / -1; }
         }
     </style>
 </head>
@@ -528,8 +598,6 @@
     <div class="top-logo">
         <a href="index.html"><img src="./assets/logo.png" alt="Plankraft Logo"></a>
     </div>
-
-
 
     <main id="main-content">
         
@@ -543,30 +611,66 @@
                 <span class="section-label">Foundations</span>
                 <h2>Our Core Offerings</h2>
             </div>
+            
             <div class="checklist-grid reveal">
                 <div class="checklist-item">
-                    <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-                    Architectural Plans & Estimation
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Architectural Plans & Estimation</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Comprehensive blueprints, 3D modeling, and highly accurate cost forecasting to bring your vision to reality without hidden surprises.
+                    </div>
                 </div>
+
                 <div class="checklist-item">
-                    <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-                    Designing
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Designing</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Innovative structural and aesthetic design solutions blending modern luxury with everyday functionality and environmental harmony.
+                    </div>
                 </div>
+
                 <div class="checklist-item">
-                    <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-                    Residential Buildings
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Residential Buildings</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        End-to-end construction of premium custom homes, ensuring ultimate comfort, durability, and a timeless architectural style.
+                    </div>
                 </div>
+
                 <div class="checklist-item">
-                    <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-                    Commercial Spaces
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Commercial Spaces</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Strategic building solutions for offices, retail, and hospitality, meticulously optimized for business flow and exceptional customer experience.
+                    </div>
                 </div>
+
                 <div class="checklist-item">
-                    <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-                    Renovation & Maintenance Interiors
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Renovation & Maintenance Interiors</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Transforming existing spaces with modern upgrades, complete interior overhauls, and reliable, long-term structural maintenance.
+                    </div>
                 </div>
+
                 <div class="checklist-item">
-                    <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-                    Engineering Consultants
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Engineering Consultants</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Expert technical guidance on structural viability, premium material selection, strict code compliance, and overall project management.
+                    </div>
                 </div>
             </div>
         </section>
@@ -664,7 +768,6 @@
 
     <footer id="footer">
       <div class="footer-grid">
-        <!-- Brand Column -->
         <div class="footer-brand-col">
           <img src="./assets/logo.png" alt="Plankraft Logo" class="footer-logo">
           <p class="footer-desc">Plankraft Engineers & Builders — crafting timeless architecture with precision, elegance, and modern engineering excellence across Kerala.</p>
@@ -684,7 +787,6 @@
           </div>
         </div>
 
-        <!-- Quick Links -->
         <div>
           <h4 class="footer-col-title">Quick Links</h4>
           <ul class="footer-links">
@@ -696,7 +798,6 @@
           </ul>
         </div>
 
-        <!-- Other Pages -->
         <div>
           <h4 class="footer-col-title">Other Pages</h4>
           <ul class="footer-links">
@@ -706,12 +807,11 @@
           </ul>
         </div>
 
-        <!-- Contact Info -->
         <div>
           <h4 class="footer-col-title">Contact Info</h4>
           <div class="footer-contact-item">
             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-            <a href="https://maps.app.goo.gl/Er46LezjWVYWkQSH8" target="_blank" rel="noopener">Malappuram, Kerala, India</a>
+            <a href="https://maps.app.goo.gl/Er46LezjWVYWkQSH8" target="_blank" rel="noopener">Calicut, Kerala, India</a>
           </div>
           <div class="footer-contact-item">
             <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
@@ -728,7 +828,7 @@
       </div>
 
       <div class="footer-bottom">
-        &copy; 2025 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers &amp; Builders</a>.
+        © 2025 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers & Builders</a>.
       </div>
     </footer>
 
@@ -759,6 +859,28 @@
             }, { threshold: 0.15 });
             
             serviceCards.forEach(card => serviceObserver.observe(card));
+
+            // Click to toggle (open/close) for mobile/touch
+            const checklistItems = document.querySelectorAll('.checklist-item');
+            
+            checklistItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    // Disable click toggle on desktop (relies on CSS hover instead)
+                    if (window.innerWidth > 992) return;
+
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all others
+                    checklistItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+                    
+                    // Toggle the clicked one
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 </body>

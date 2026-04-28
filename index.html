@@ -1389,17 +1389,22 @@
     }
 
     .footer-bottom {
-      text-align: center;
-      padding: 1.2rem 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 1.5rem 0;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 0.78rem;
+      font-size: clamp(0.55rem, 2.5vw, 0.78rem);
       color: rgba(255, 255, 255, 0.35);
+      white-space: nowrap;
     }
 
     .footer-bottom a {
       color: #f97316;
       text-decoration: none;
       font-weight: 600;
+      margin-left: 0.3rem;
     }
 
     @keyframes fadeUp {
@@ -1972,6 +1977,10 @@
       .footer-brand-col {
         grid-column: 1 / -1;
       }
+
+      .footer-grid > div:last-child {
+        grid-column: 1 / -1;
+      }
     }
 
     @media (max-width: 400px) {
@@ -2437,7 +2446,7 @@
           <h4 class="footer-col-title">Contact Info</h4>
           <div class="footer-contact-item">
             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-            <a href="https://maps.app.goo.gl/Er46LezjWVYWkQSH8" target="_blank" rel="noopener">Malappuram, Kerala, India</a>
+            <a href="https://maps.app.goo.gl/Er46LezjWVYWkQSH8" target="_blank" rel="noopener">Calicut, Kerala, India</a>
           </div>
           <div class="footer-contact-item">
             <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
