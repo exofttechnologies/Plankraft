@@ -51,6 +51,10 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        *, *::before, *::after {
+            -webkit-tap-highlight-color: transparent;
+        }
+
         /* ═══ NAV STYLES (Identical to Index) ═══ */
         nav {
             position: fixed;
@@ -171,8 +175,6 @@
         .core-services {
             background: var(--near-black);
             color: var(--white);
-            /* INCREASED TOP PADDING FROM 7rem TO 10rem TO PUSH DOWN */
-            /* INCREASED BOTTOM PADDING FROM 7rem TO 15rem TO PREVENT DROPDOWN CUTOFF */
             padding: 10rem 2.5rem 15rem;
         }
 
@@ -207,9 +209,8 @@
             margin: 0 auto;
         }
 
-        /* UPDATED CHECKLIST ITEM CSS: Absolute Positioning to Prevent Grid Shaking */
         .checklist-item {
-            position: relative; /* Keeps the dropdown attached to this item */
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -217,24 +218,24 @@
             font-weight: 400;
             letter-spacing: 0.02em;
             color: rgba(255, 255, 255, 0.85);
-            background: #171717; /* Solid color hides cards behind dropdown */
+            background: #171717;
             padding: 1.5rem 2rem;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: background 0.3s ease, border-radius 0.3s ease; /* Removed transform to stop shaking */
+            transition: background 0.3s ease, border-radius 0.3s ease;
             cursor: pointer;
-            z-index: 1; /* Base layer */
-            
-            /* ADDED THIS to prevent text highlighting when double tapping on mobile */
+            z-index: 1;
             user-select: none;
             -webkit-user-select: none;
+            min-height: 110px;
+            justify-content: center;
         }
 
         .checklist-item.active {
             background: #202020;
             border-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px 8px 0 0; /* Flat bottom for smooth dropdown attachment */
-            z-index: 10; /* Bring active item to front */
+            border-radius: 8px 8px 0 0;
+            z-index: 10;
         }
 
         @media (hover: hover) and (pointer: fine) {
@@ -253,11 +254,11 @@
         }
 
         .checklist-item-desc {
-            position: absolute; /* Takes description out of layout so grid doesn't expand */
+            position: absolute;
             top: 100%;
-            left: -1px; /* Align precisely with the border */
+            left: -1px;
             width: calc(100% + 2px);
-            background: #202020; /* Matches hover background */
+            background: #202020;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-top: none;
             border-radius: 0 0 8px 8px;
@@ -268,9 +269,9 @@
             max-height: 0;
             opacity: 0;
             visibility: hidden;
-            overflow: hidden; /* Hide text when closed */
+            overflow: hidden;
             transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5); /* Shadow makes it pop over cards below */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
         .checklist-item.active .checklist-item-desc {
@@ -338,15 +339,18 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            align-items: end;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-auto-rows: 1fr;
+            gap: 2rem;
+            align-items: stretch;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .service-card {
             background: #fff;
             border-radius: 12px;
-            padding: 2rem 1.75rem;
+            padding: 2.5rem 2rem;
             border: 1px solid rgba(0, 0, 0, 0.06);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             position: relative;
@@ -354,6 +358,9 @@
             transition: transform 0.4s ease, box-shadow 0.4s ease;
             opacity: 0;
             transform: translateY(40px);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .service-card.visible {
@@ -366,10 +373,7 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
         }
 
-        .service-card:nth-child(1) { min-height: 320px; transition-delay: 0s; }
-        .service-card:nth-child(2) { min-height: 350px; margin-bottom: 2rem; transition-delay: 0.1s; }
-        .service-card:nth-child(3) { min-height: 380px; margin-bottom: 4rem; transition-delay: 0.2s; }
-        .service-card:nth-child(4) { min-height: 400px; margin-bottom: 6rem; transition-delay: 0.3s; }
+        .service-card { min-height: 380px; transition: all 0.4s ease; }
 
         .service-card-number {
             position: absolute;
@@ -384,7 +388,7 @@
         }
 
         .service-card:hover .service-card-number {
-            color: rgba(172, 53, 9, 0.1); /* Accent highlight */
+            color: rgba(172, 53, 9, 0.1);
         }
 
         .service-card-icon {
@@ -577,6 +581,43 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ═══ CONSULTATION BUTTON ═══ */
+        .consult-btn {
+          position: absolute;
+          top: 2.5rem;
+          right: 1.5rem;
+          z-index: 90;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1.4rem;
+          background: #fff;
+          color: #1a1a1a;
+          text-decoration: none;
+          border-radius: 999px;
+          font-family: var(--ff-body);
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          border: 1px solid rgba(0,0,0,0.08);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+          transition: all 0.3s ease;
+          white-space: nowrap;
+        }
+
+        .consult-btn:hover {
+          background: #1a1a1a;
+          color: #fff;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .consult-btn svg {
+          width: 14px;
+          height: 14px;
+          flex-shrink: 0;
+        }
+
         /* Responsive */
         @media (max-width: 900px) {
             nav { display: none !important; }
@@ -595,6 +636,13 @@
 
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .footer-brand-col { grid-column: 1 / -1; }
+
+            .consult-btn {
+                top: 1.5rem;
+                right: 1.25rem;
+                padding: 0.45rem 0.9rem;
+                font-size: 0.65rem;
+            }
         }
         @media (max-width: 600px) {
             .services-grid { grid-template-columns: 1fr; }
@@ -612,6 +660,10 @@
     <main id="main-content">
         
         <section class="page-hero">
+            <a href="contact.html" class="consult-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              Get a Free Consultation
+            </a>
             <h1>Our Services</h1>
             <p>At <strong>Plankraft Engineers & Builders</strong>, we provide comprehensive construction and engineering services. From innovative designs to flawless execution, our team ensures the success of your projects.</p>
         </section>
@@ -682,6 +734,36 @@
                         Expert technical guidance on structural viability, premium material selection, strict code compliance, and overall project management.
                     </div>
                 </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Supervision</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Rigorous on-site oversight and quality control, ensuring every phase of construction strictly adheres to design specifications and the highest safety standards.
+                    </div>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>Contracting</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Comprehensive contracting solutions managing skilled labor, premium material procurement, and seamless execution from groundbreaking to final handover.
+                    </div>
+                </div>
+
+                <div class="checklist-item">
+                    <div class="checklist-item-header">
+                        <div class="check-icon"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+                        <span>3D Modeling</span>
+                    </div>
+                    <div class="checklist-item-desc">
+                        Hyper-realistic architectural renders and 3D spatial models designed to give you a flawless, highly accurate preview of your finished residential or commercial space.
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -735,6 +817,21 @@
                     <div class="service-card-number">03</div>
                     <div class="service-card-icon">
                         <svg viewBox="0 0 48 48">
+                            <rect x="14" y="10" width="20" height="28" rx="2" />
+                            <path d="M18 6h12v8H18z" />
+                            <line x1="20" y1="20" x2="28" y2="20" />
+                            <line x1="20" y1="28" x2="28" y2="28" />
+                            <path d="M20 34h4" />
+                        </svg>
+                    </div>
+                    <h3>Project Supervision</h3>
+                    <p>Rigorous on-site oversight and quality control, ensuring every phase strictly adheres to design specifications and safety standards.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card-number">04</div>
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 48 48">
                             <path d="M24 10c-2 3-2 6 0 8c2-2 2-5 0-8z" />
                             <path d="M20 12c-1 3 0 6 2 7c1-2 0-5-2-7z" />
                             <path d="M28 12c1 3 0 6-2 7c-1-2 0-5 2-7z" />
@@ -755,7 +852,7 @@
                 </div>
 
                 <div class="service-card">
-                    <div class="service-card-number">04</div>
+                    <div class="service-card-number">05</div>
                     <div class="service-card-icon">
                         <svg viewBox="0 0 48 48">
                             <path d="M6 42h36" />
@@ -769,6 +866,21 @@
                     </div>
                     <h3>House / Apartment Renovation</h3>
                     <p>We specialize in transforming homes and apartments with complete renovation services, improving functionality, beauty, and value.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card-number">06</div>
+                    <div class="service-card-icon">
+                        <svg viewBox="0 0 48 48">
+                            <path d="M24 4L6 14v20l18 10 18-10V14L24 4z" />
+                            <path d="M6 14l18 10 18-10" />
+                            <line x1="24" y1="24" x2="24" y2="44" />
+                            <path d="M14 9.5l18 10" />
+                            <path d="M34 9.5L16 19.5" />
+                        </svg>
+                    </div>
+                    <h3>3D Modeling & Visualization</h3>
+                    <p>High-fidelity architectural renderings and immersive 3D visualizations that bring your concepts to life, providing a realistic and meticulously detailed preview of your space before construction begins.</p>
                 </div>
 
             </div>
@@ -803,8 +915,8 @@
             <li><a href="index.html#hero">Homepage</a></li>
             <li><a href="index.html#latest">Our Projects</a></li>
             <li><a href="index.html#about">About Us</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#gallery">Gallery</a></li>
           </ul>
         </div>
 
@@ -838,7 +950,7 @@
       </div>
 
       <div class="footer-bottom">
-        © 2025 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers & Builders</a>.
+        © 2019 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers & Builders</a>.
       </div>
     </footer>
 

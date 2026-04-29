@@ -21,6 +21,7 @@
     *::before,
     *::after {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -598,6 +599,13 @@
         padding: 4rem 1.5rem;
       }
 
+      .consult-btn {
+        top: 1.5rem;
+        right: 1.25rem;
+        padding: 0.45rem 0.9rem;
+        font-size: 0.65rem;
+      }
+
       .page-hero h1 {
         font-size: clamp(1.8rem, 8vw, 3rem);
       }
@@ -635,6 +643,69 @@
         font-size: 0.72rem;
       }
     }
+
+    /* ═══ VIEW ALL BUTTON ═══ */
+    .view-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gallery-text-main);
+      text-decoration: none;
+      padding: 0.6rem 1.4rem;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 999px;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .view-all-btn:hover {
+      background: var(--gallery-text-main);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .video-gallery-section .view-all-btn {
+      border-color: rgba(0,0,0,0.15);
+    }
+
+    /* ═══ CONSULTATION BUTTON ═══ */
+    .consult-btn {
+      position: absolute;
+      top: 2.5rem;
+      right: 1.5rem;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      background: #fff;
+      color: #1a1a1a;
+      text-decoration: none;
+      border-radius: 999px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .consult-btn:hover {
+      background: #1a1a1a;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .consult-btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 
@@ -645,6 +716,10 @@
   </div>
 
   <section class="page-hero">
+    <a href="contact.html" class="consult-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+      Get a Free Consultation
+    </a>
     <video src="./assets/gallery_videos/gallery_header.mp4" autoplay muted loop playsinline preload="auto"
       class="hero-video"></video>
     <h1>Our Gallery</h1>
@@ -654,8 +729,12 @@
   <section class="gallery-section" id="gallery">
 
     <div class="video-section-header">
-      <div class="video-section-label">Showreel</div>
+      <div class="video-section-label">Portfolio</div>
       <h2 class="video-section-title">Project Images</h2>
+      <a href="gallery-images.html" class="view-all-btn">
+        View All Images
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
     </div>
 
     <div class="img-carousel-viewport" id="imgViewport">
@@ -671,6 +750,10 @@
     <div class="video-section-header">
       <div class="video-section-label">Showreel</div>
       <h2 class="video-section-title">Project Videos</h2>
+      <a href="gallery-videos.html" class="view-all-btn">
+        View All Videos
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
     </div>
 
     <div class="video-filter-tabs">
@@ -732,8 +815,8 @@
           <li><a href="index.html#hero">Homepage</a></li>
           <li><a href="index.html#latest">Our Projects</a></li>
           <li><a href="index.html#about">About Us</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="index.html#services">Services</a></li>
+          <li><a href="index.html#gallery">Gallery</a></li>
         </ul>
       </div>
 
@@ -775,7 +858,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      &copy; 2025 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers &amp; Builders</a>.
+      &copy; 2019 Copyright All rights reserved by <a href="index.html#hero">PlanKraft Engineers &amp; Builders</a>.
     </div>
   </footer>
 
@@ -915,17 +998,17 @@
 
       function attachCardEvents() {
         track.querySelectorAll('.video-card').forEach(card => {
-          card.addEventListener('click', function (e) {
+          const overlay = card.querySelector('.card-overlay');
+          overlay.addEventListener('click', function (e) {
             e.stopPropagation();
-            if (this.classList.contains('is-playing')) return;
             stopPlaying();
-            const vid = this.querySelector('video');
-            const ov = this.querySelector('.card-overlay');
+            const vid = card.querySelector('video');
             vid.setAttribute('controls', ''); vid.muted = false;
-            ov.classList.add('hidden');
+            vid.style.touchAction = 'auto';
+            this.classList.add('hidden');
             vid.play().catch(() => {});
-            this.classList.add('is-playing');
-            playingCard = this;
+            card.classList.add('is-playing');
+            playingCard = card;
             track.classList.add('paused');
           });
 
