@@ -2374,7 +2374,7 @@
   <div id="main-content">
 
     <section class="hero" id="hero">
-      <a href="contact.html" class="consult-btn" id="consultBtn">
+      <a href="/contact/" class="consult-btn" id="consultBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
         Get a Free Consultation
       </a>
@@ -2728,7 +2728,7 @@
           </div>
         </div>
 
-        <div class="gb-item gb-cta" onclick="window.location.href='gallery.html'">
+        <div class="gb-item gb-cta" onclick="window.location.href='/gallery/'">
           <img src="./assets/10.jpg" alt="Gallery Background">
           <div style="position: relative; z-index: 2; text-align: center;">
             <button class="gallery-btn" style="margin: 0 auto; pointer-events: none;">
@@ -2855,9 +2855,10 @@
         <div>
           <h4 class="footer-col-title">Other Pages</h4>
           <ul class="footer-links">
-            <li><a href="services.html">Our Services</a></li>
-            <li><a href="gallery.html">Full Gallery</a></li>
-            <li><a href="contact.html">Get a Quote</a></li>
+            <li><a href="/about/">About Us</a></li>
+            <li><a href="/services/">Our Services</a></li>
+            <li><a href="/gallery/">Full Gallery</a></li>
+            <li><a href="/contact/">Get a Quote</a></li>
           </ul>
         </div>
 
@@ -3169,7 +3170,7 @@
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
-      if (ctaBtn) ctaBtn.addEventListener('click', () => window.location.href = 'contact.html');
+      if (ctaBtn) ctaBtn.addEventListener('click', () => window.location.href = '/contact/');
       if (heroViewProjects) heroViewProjects.addEventListener('click', () => scrollToSection('latest'));
       if (heroBookConsult) heroBookConsult.addEventListener('click', () => scrollToSection('contact'));
 
